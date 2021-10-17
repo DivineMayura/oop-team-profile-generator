@@ -38,6 +38,7 @@ describe("Class Manager which Extends Employee, creates a Manager", () => {
         it("get the ID of the new Employee", () => {
 
             function getName(employee) {
+                // Intended function structure
                 let id = employee.id
                 return id;
             }
@@ -50,8 +51,7 @@ describe("Class Manager which Extends Employee, creates a Manager", () => {
         it("gets the email of the new Employee", () => {
             Employee
                 function getName(employee) {
-                    let email = employee.email
-                    return email;
+                    return employee.email;
                 }
                 expect(getName(samus)).toBe("samus@gmail.com")
 
