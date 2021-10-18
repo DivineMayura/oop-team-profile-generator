@@ -1,10 +1,11 @@
-const Inquirer = require("inquirer")
+const Inquirer = require("inquirer");
+const fs = require("fs");
+const Manager = require("./lib/Manager");
+const Intern = require("./lib/Intern");
+const Engineer = require("./lib/Engineer");
+// const Employee = require("./lib/Employee")
 
-const Manager = require("./lib/Manager")
-// const addManagers = require("./lib/Manager")
-const Intern = require("./lib/Intern")
-const Engineer = require("./lib/Engineer")
-const Employee = require("./lib/Employee")
+//  const getRole = require("./lib/Manager")
 
 // Default unchanged question list.
 // Only has list selection.
@@ -33,14 +34,14 @@ function start() {
 // That would require me to refractor two main functions into one however, so I can save it for later.
 function choices(response) {
     if (response.classSelection == 'Add a new Manager.') {
-        addManagers()
+        addManagers();
     } else if (response.classSelection == 'Add a new Engineer.') {
-        addEngineers()
+        addEngineers();
     } else if (response.classSelection == 'Add a new Intern.') {
-        addInterns()
+        addInterns();
     } else if (response.classSelection == 'That is all, thankyou.') {
-        runItBack();
-    } else console.log("Oops, that result wasn't expected. Please try again.")
+        appendEverything();
+    } else console.log("Fatal Error Occured. Please try again.")
 }
 
 
@@ -189,43 +190,86 @@ function increaseInterns(name, id, email, school) {
     name = new Intern(name, id, email, school)
     employees.push(name)
 }
+var placeholder;
+var arrayContainingHTMLINFO = [];
 
 
 function runItBack() {
     for (i=0; i<employees.length;i++) {
-        console.log(employees[i])
-        // if(employees[i] == Manager) {
-
-        // How DO I DO this part.
-            Employee.getRole(employees[i])
-                getRole(employees[i])
-                console.log(getRole(), "this is 1st")
-                console.log(getRole(employees[i]), "this is 2nd")
-        // }
-
-// This will be appended to the page.
-
-        // <div class="card" style="width: 18rem;">
-        //     <div class ="card-body">
-        //         <h5 class ="card-title">Manager</h5>
-        //         <p class ="card-text">e bulk of the card's content.</p>
-        //     </div>
-        //     <ul class ="list-group list-group-flush">
-        //         <li class ="list-group-item">An item</li>
-        //         <li class ="list-group-item">A second item</li>
-        //         <li class ="list-group-item">A third item</li>
-        //     </ul>
-        //     <div class ="card-body">
-        //         <a href="#" class ="card-link">Card link</a>
-        //         <a href="#" class ="card-link">Another link</a>
-        //     </div>
-        // </div>
+        console.log(employees[i].getRole())
+        
+        
+        // This is also pretty inefficient, I could definitely refractor this whole function and its related parts
+    if(employees[i].getRole() === "Intern") {
+        placeholder = employees[i].getSchool();
+    } else if (employees[i].getRole() === "Manager") {
+        placeholder = employees[i].getOfficeNumber();
+    } else if (employees[i].getRole() === "Engineer") {
+        placeholder = employees[i].getGitHub();
+    } else {placeholder = "This is an error placeholder for when something goes wrong, you shouldn't really ever see this."}
 
 
+        arrayContainingHTMLINFO.push(
+        `<div class="card" style="width: 18rem;">
+            <div class ="card-body">
+                <h5 class ="card-title">${employees[i].name}</h5>
+                <p class ="card-text">${employees[i].getRole()}</p>
+            </div>
+            <ul class ="list-group list-group-flush">
+                <li class ="list-group-item">${employees[i].id}</li>
+                <li class ="list-group-item">${employees[i].email}</li>
+                <li class ="list-group-item">${placeholder}</li>
+            </ul>
+            <div class ="card-body">
+                <a href="#" class ="card-link">Card link</a>
+                <a href="#" class ="card-link">Another link</a>
+            </div>
+        </div>`)
+        
     }
+    return arrayContainingHTMLINFO.join("");
 }
 
 console.log(employees)
+
+
+function appendEverything() {
+
+fs.writeFile("index.html", 
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="styleSheet" href="./roster.css"/>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Employee Roster</title>
+</head>
+<body>
+    <header>
+        <div>
+            <h2 id="pageTop">
+                Team Roster
+            </h2>
+        </div>
+    </header>
+    <div id="everything">
+        ${runItBack()}
+    </div>
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>`, (err) => err ? console.error(err, "If this message is being played, it errored.") : console.log("Okay, Your HTML is ready to GO!"))
+
+// fs.writeFile("roster.css", )
+}
+
+
+
+
+
 
 
 start()
