@@ -1,0 +1,23 @@
+#everything {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+#pageTop {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background-color: black;
+    box-shadow: 10px 0px 50px 20px #ef0d50;
+    color: #05F4B7;
+    text-shadow: 0px 0px 30px white;
+}
