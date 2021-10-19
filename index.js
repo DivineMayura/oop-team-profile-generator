@@ -73,7 +73,7 @@ function addManagers() {
         .then((response) => {
             // console.log(response);
             increaseManagers(response.managerName, response.managerId, response.managerEmail, response.officeNumber)
-            console.log("Currently, these are the employees", employees)
+            console.log("\n ++ Added new Manager to roster.\n ")
             start()
         })
 }
@@ -107,7 +107,7 @@ function addEngineers() {
         .then((response) => {
             // console.log(response);
             increaseEngineers(response.name, response.id, response.email, response.github)
-            console.log("Currently, these are the employees", employees)
+            console.log("\n ++ Added new Engineer to roster.\n ")
             start()
         })
 }
@@ -141,7 +141,7 @@ function addInterns() {
         .then((response) => {
             // console.log(response);
             increaseInterns(response.name, response.id, response.email, response.school)
-            console.log("Currently, these are the employees", employees)
+            console.log("\n ++ Added new Intern to roster.\n ")
             start()
         })
 }
