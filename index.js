@@ -3,9 +3,7 @@ const fs = require("fs");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 const Engineer = require("./lib/Engineer");
-// const Employee = require("./lib/Employee")
 
-//  const getRole = require("./lib/Manager")
 
 // Default unchanged question list.
 // Only has list selection.
@@ -80,7 +78,6 @@ function addManagers() {
         })
 }
 
-
 // refractor this in the future.
 function addEngineers() {
     let bigAsk = [{
@@ -114,7 +111,6 @@ function addEngineers() {
             start()
         })
 }
-
 
 // refractor this in the future.
 function addInterns() {
@@ -151,11 +147,9 @@ function addInterns() {
 }
 
 
-
-
 /////////////////////////////////////////////////////
 // Used for testing
-increaseManagers("--Todd", 204, "triangle", "numbies")
+// increaseManagers("--Todd", 204, "triangle", "numbies")
 // increaseManagers("Rabecca",264,"square","numbors")
 
 /////////////////////////////////////////////////////
@@ -181,8 +175,8 @@ function increaseEngineers(name, id, email, github) {
 
 /////////////////////////////////////////////////
 // Used for testing
-increaseInterns("--coral", 234, "dolphin", "atlantic")
-// increaseInterns("reef",204,"shark","ocianic")
+// increaseInterns("--coral", 234, "dolphin", "atlantic")
+// increaseInterns("reef",204,"shark","oceanic")
 
 /////////////////////////////////////////////////
 // This increases the amount of interns by one
@@ -190,14 +184,17 @@ function increaseInterns(name, id, email, school) {
     name = new Intern(name, id, email, school)
     employees.push(name)
 }
+
+
 var placeholder;
 var arrayContainingHTMLINFO = [];
 
-
+// Function that loops this whole mess for the HTML...
 function runItBack() {
+
+    // For loop 
     for (i=0; i<employees.length;i++) {
-        console.log(employees[i].getRole())
-        
+        console.log("Added: ",employees[i].getRole(), employees[i].name)
         
         // This is also pretty inefficient, I could definitely refractor this whole function and its related parts
     if(employees[i].getRole() === "Intern") {
@@ -205,9 +202,8 @@ function runItBack() {
     } else if (employees[i].getRole() === "Manager") {
         placeholder = employees[i].getOfficeNumber();
     } else if (employees[i].getRole() === "Engineer") {
-        placeholder = employees[i].getGitHub();
+        placeholder = `GitHub: <a href="https://github.com/${employees[i].github}" class ="card-link">`+employees[i].github+`</a>`;
     } else {placeholder = "This is an error placeholder for when something goes wrong, you shouldn't really ever see this."}
-
 
         arrayContainingHTMLINFO.push(
         `<div class="card" style="width: 18rem;">
@@ -216,13 +212,11 @@ function runItBack() {
                 <p class ="card-text">${employees[i].getRole()}</p>
             </div>
             <ul class ="list-group list-group-flush">
-                <li class ="list-group-item">${employees[i].id}</li>
-                <li class ="list-group-item">${employees[i].email}</li>
+                <li class ="list-group-item">ID: ${employees[i].id}</li>
+                <li class ="list-group-item">Email: ${employees[i].email}</li>
                 <li class ="list-group-item">${placeholder}</li>
             </ul>
             <div class ="card-body">
-                <a href="#" class ="card-link">Card link</a>
-                <a href="#" class ="card-link">Another link</a>
             </div>
         </div>`)
         
@@ -230,12 +224,11 @@ function runItBack() {
     return arrayContainingHTMLINFO.join("");
 }
 
-console.log(employees)
-
 
 function appendEverything() {
 
-fs.writeFile("index.html", 
+// Writes a new Index.html page
+fs.writeFile("./dist/index.html", 
 `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -261,17 +254,48 @@ fs.writeFile("index.html",
     <!-- Bootstrap JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
-</html>`, (err) => err ? console.error(err, "If this message is being played, it errored.") : console.log("Okay, Your HTML is ready to GO!"))
+</html>`, (err) => err ? console.error(err, "If this message is being played, it errored.") : console.log("Okay, Your new HTML can be found in the 'dist' folder! Feel free to modify this as you see fit."))
 
-// fs.writeFile("roster.css", )
+// Writes a new css sheet for that Index.html.
+fs.writeFile("./dist/roster.css",`#everything {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    height: auto;
+    justify-content: space-evenly;
+    padding: 100px;
+}
+
+#pageTop {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background-color: black;
+    box-shadow: 10px 0px 50px 20px #ef0d50;
+    color: #05F4B7;
+    text-shadow: 0px 0px 30px white;
+}
+
+.card-body {
+    color: black;
+    background-color: aquamarine;
+    text-align: center;
+}
+
+.card {
+    box-shadow: 0px 10px 5px 1px grey;
+    margin: 10px;
+}`, (err) => err ? console.error(err, "If this message is being played, it errored.") : console.log("Okay, Your new CSS can be found in the 'dist' folder! Feel free to modify this as you see fit."))
 }
 
 
 
-
-
-
-
 start()
-
-module.exports = start;
+// 300 is kind of a cool number
+// 301 is not as cool.
